@@ -1,1 +1,0 @@
-export const GET_MENU_STATE = 'GET_MENU_STATE'

@@ -1,44 +1,54 @@
 import React, { Component } from 'react';
 import {
-  Layout, Menu, Breadcrumb, Icon,
+  Layout, Menu, Icon
 } from 'antd';
 import { getMenuState } from './actions/menuAction'
 import { connect } from "react-redux"
-import { NavLink } from "react-router-dom"
- 
+import PropTypes from 'prop-types';
+import {
+  Link, Route, Switch, Redirect
+} from "react-router-dom"
+import TableMenu from './components/tableMenu';
+
 const {
-  Header, Content, Footer, Sider,
+  Header, Footer, Sider,
 } = Layout;
 
 class App extends Component {
   state = {
-    collapsed: false,
-    key: '0'
+    collapsed: false
   };
 
   componentDidMount() {
-    this.props.getMenuState('1');
+    this.props.getMenuState("0");
   }
 
   onCollapse = (collapsed) => {
-    console.log(collapsed);
     this.setState({ collapsed });
   }
 
+  menuHandler = (e) => {
+    this.props.getMenuState(e.key + '')
+  }
+
   render() {
-    console.log(this.props);
+    console.log("执行了render()");
+    console.log(this.props.sign);
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Sider
-          collapsible 
+          collapsible
           collapsed={this.state.collapsed}
           onCollapse={this.onCollapse}
         >
           <div className="logo" />
-          <Menu theme="dark" defaultSelectedKeys={[this.props.key]} mode="inline">
+          <Menu theme="dark" defaultSelectedKeys={[!this.props.sign ? '0' : this.props.sign]}
+            mode="inline" onClick={(e) => this.menuHandler(e)}>
             <Menu.Item key="0">
               <Icon type="area-chart" />
-              <span>Option 1</span>
+              <span>table</span>
+              <Link to='/table'>
+              </Link>
             </Menu.Item>
             <Menu.Item key="1">
               <Icon type="desktop" />
@@ -60,15 +70,10 @@ class App extends Component {
         </Sider>
         <Layout>
           <Header style={{ background: '#fff', padding: 0 }} />
-          <Content style={{ margin: '0 16px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>User</Breadcrumb.Item>
-              <Breadcrumb.Item>Bill</Breadcrumb.Item>
-            </Breadcrumb>
-            <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-              Bill is a cat.
-            </div>
-          </Content>
+          <Switch>
+            <Route exact path='/table' component={TableMenu} />
+            <Redirect exact path='/' to={{ pathname: '/table' }} />
+          </Switch>
           <Footer style={{ textAlign: 'center' }}>
             Ant Design ©2018 Created by Ant UED
           </Footer>
@@ -78,8 +83,13 @@ class App extends Component {
   }
 }
 
+App.propTypes = {
+  getMenuState: PropTypes.func.isRequired,
+  sign: PropTypes.string.isRequired
+}
+
 const mapStateToProps = state => ({
-    key: state.menu.key
+  sign: state.menu.sign
 })
 
 export default connect(mapStateToProps, { getMenuState })(App)

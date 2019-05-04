@@ -1,6 +1,10 @@
 import * as type from './type/menuType'
-// 菜单组件action
-export const getMenuState = index => dispatch => {
+/**
+ * 菜单： 分发action 
+ */
+
+
+export const getMenuState = (index) => (dispatch) => {
     dispatch({
         type: type.GET_MENU_STATE,
         payload: index
