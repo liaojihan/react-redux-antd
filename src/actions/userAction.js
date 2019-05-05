@@ -1,5 +1,5 @@
 import * as type from './type/userType'
-import { usetInfoList, InfoDelete, initUserList, infoAdd } from "../util/index"
+import { usetInfoList, InfoDelete, initUserList, infoAdd, infoGet } from "../util/index"
 
 /**
  * 分发 user action
@@ -30,4 +30,9 @@ import { usetInfoList, InfoDelete, initUserList, infoAdd } from "../util/index"
          type: type.USER_INFO_ADD,
          payload: infoList
      })
+ }
+
+
+ export const getUser = (index, list) => (dispatch) => {
+     const info = infoGet(index, list);
  }

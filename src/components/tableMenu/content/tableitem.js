@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Divider, Popconfirm, Icon, Button } from 'antd';
+import { Table, Divider, Popconfirm, Icon, Button, Tag } from 'antd';
 import CollectionCreateForm from '../../fromItem'
 import { connect } from 'react-redux'
 import { userInfoList, userInfoDelete, userInfoAdd } from '../../../actions/userAction'
@@ -64,6 +64,14 @@ class TableItem extends Component {
         })
     }
 
+    showUpdateModal = (index) => {
+        this.props.getUser(index, this.props.infoList)
+        this.setState({
+            visible: true,
+            isDisabled: false
+        })
+    }
+
     render() {
         return (
             <div style={{ padding: 12, background: '#fff', minHeight: 360 }}>
@@ -86,16 +94,16 @@ class TableItem extends Component {
                         dataIndex="address"
                         key="address"
                     />
-                    {/* <Column
+                    <Column
                         title="标签"
-                        dataIndex="tags"
-                        key="tags"
-                        render={tags => (
+                        dataIndex="pros"
+                        key="pros"
+                        render={pros => (
                             <span>
-                                {tags.map(tag => <Tag color="blue" key={tag} title={tag}>{tag}</Tag>)}
+                                {<Tag color="blue" key={pros} title={pros}>{pros}</Tag>}
                             </span>
                         )}
-                    /> */}
+                    />
                     <Column
                         title="操作"
                         key="action"
@@ -105,8 +113,12 @@ class TableItem extends Component {
                                 <Divider type="vertical" />
                                 <Popconfirm title="确定要删除吗？" icon={<Icon type="question-circle-o" 
                                 style={{ color: 'red' }} />} onConfirm={(e) => this.deleteUser(index, e)}>
-                                    <a href="javascript:;">Delete</a>
+                                    <a href="javascript:;">删除</a>
                                 </Popconfirm>
+                                <Divider type='vertical'/>
+                                <a href='javascript:;' onClick={ (e) => this.showUpdateModal(index, e)}>
+                                    编辑
+                                </a>
                             </span>
                         )}
                     />
@@ -117,7 +129,7 @@ class TableItem extends Component {
                     record={this.state.formItem}
                     modalTitle={this.state.modalTitle}
                     onCancel={this.handleCancel}
-                    onCreate={this.handleCreate}
+                    onCreate={this.handleCreate}    
                     isDisabled={this.state.isDisabled}
                 />
             </div>

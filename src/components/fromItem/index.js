@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-    Modal, Form, Input
+    Modal, Form, Input, Radio
 } from 'antd';
 
 const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
@@ -27,6 +27,20 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
                             {
                                 getFieldDecorator(
                                     'name', {
+                                        rules: [
+                                            {
+                                                max: 40,
+                                                message: '超出长度'
+                                            }, 
+                                            {
+                                                min: 2,
+                                                message: '请至少输入2个字符'
+                                            }, 
+                                            {
+                                                required: true,
+                                                message: '请输入此选项'
+                                            }
+                                        ],
                                         initialValue: record.name
                                     }
                                 )(
@@ -38,6 +52,15 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
                             {
                                 getFieldDecorator(
                                     'age', {
+                                        rules: [
+                                            {
+                                                required: true,
+                                                message: '请输入此选项'
+                                            },
+                                            {
+                                                pattern: /^[0-9]*$/, message: '请输入正确的年龄'
+                                            }
+                                        ],
                                         initialValue: record.age
                                     }
                                 )(
@@ -49,10 +72,44 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
                             {
                                 getFieldDecorator(
                                     'address', {
+                                        rules: [
+                                            {
+                                                required: true,
+                                                message: '请输入此选项'
+                                            }
+                                        ],
                                         initialValue: record.address
                                     }
                                 )(
                                     <Input disabled={isDisabled}/>
+                                )
+                            }
+                        </Form.Item>
+                        <Form.Item className="collection-create-form_last-form-item">
+                            {
+                                getFieldDecorator (
+                                    'pros',
+                                    {
+                                        rules: [
+                                            {
+                                                required: true,
+                                                message: '请选择'
+                                            }
+                                        ],
+                                        initialValue: record.pros ? record.pros : '学生'
+                                    }
+                                )(
+                                    <Radio.Group>
+                                        <Radio value='学生'>
+                                            学生
+                                        </Radio>
+                                        <Radio value='上班族'>
+                                            上班族
+                                        </Radio>
+                                        <Radio value='商人'>
+                                            商人
+                                        </Radio>
+                                    </Radio.Group> 
                                 )
                             }
                         </Form.Item>

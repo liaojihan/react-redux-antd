@@ -17,6 +17,10 @@ export const infoAdd = (record, list) => {
     return list
 } 
 
+export const infoGet = (index, list) => {
+    
+}
+
 const data = [{
     key: '1',
     name: 'John',
