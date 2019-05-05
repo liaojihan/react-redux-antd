@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
-import { Table, Divider, Popconfirm, Icon, Button, Tag } from 'antd';
+import { 
+    Table, Divider, Popconfirm, 
+    Icon, Button, Tag 
+} from 'antd';
 import CollectionCreateForm from '../../fromItem'
 import { connect } from 'react-redux'
-import { userInfoList, userInfoDelete, userInfoAdd } from '../../../actions/userAction'
+import { 
+    userInfoList, userInfoDelete, userInfoAdd,
+    getUser
+} from '../../../actions/userAction'
 
 const { Column } = Table;
 
@@ -38,6 +44,8 @@ class TableItem extends Component {
     handleCreate = () => {
         const form = this.formRef.props.form;
         form.validateFields((err, values) => {
+            console.log(values)
+            return
             if (err) {
                 return;
             }
@@ -59,7 +67,7 @@ class TableItem extends Component {
         this.setState({
             visible: true,
             isDisabled: false,
-            formItem: [],
+            formItem: this.props.info,
             modalTitle: '新增用户'
         })
     }
@@ -68,7 +76,9 @@ class TableItem extends Component {
         this.props.getUser(index, this.props.infoList)
         this.setState({
             visible: true,
-            isDisabled: false
+            isDisabled: false,
+            formItem: () => this.props.info[index] = index,
+
         })
     }
 
@@ -138,7 +148,8 @@ class TableItem extends Component {
 }
 
 const mapPropsToState = state => ({
-    infoList: state.user.infoList
+    infoList: state.user.infoList,
+    info: state.user.info
 })
 
 export default connect(
@@ -146,6 +157,7 @@ export default connect(
     { 
         userInfoList, 
         userInfoDelete,
-        userInfoAdd
+        userInfoAdd,
+        getUser
     }
 )(TableItem)

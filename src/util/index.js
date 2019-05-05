@@ -18,7 +18,7 @@ export const infoAdd = (record, list) => {
 } 
 
 export const infoGet = (index, list) => {
-    
+    return list[index]
 }
 
 const data = [{

@@ -2,6 +2,7 @@ import React from 'react'
 import {
     Modal, Form, Input, Radio
 } from 'antd';
+import uuid from 'uuid'
 
 const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
     // eslint-disable-next-line
@@ -23,6 +24,17 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
                     maskStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.15)' }}
                 >
                     <Form layout="vertical">
+                        <Form.Item>
+                            {
+                                getFieldDecorator(
+                                    'key',{
+                                        initialValue: uuid.v4().substring(0, 6)
+                                    }
+                                )(
+                                    <Input type='hidden'/>
+                                )
+                            }
+                        </Form.Item>
                         <Form.Item label="名字">
                             {
                                 getFieldDecorator(

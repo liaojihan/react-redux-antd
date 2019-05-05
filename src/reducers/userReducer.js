@@ -2,7 +2,8 @@
 import * as type from '../actions/type/userType'
 
 const initialUser= {
-    infoList: []
+    infoList: [],
+    info: {}
 }
 
 export default function (state = initialUser, action) {
@@ -21,6 +22,11 @@ export default function (state = initialUser, action) {
             return {
                 ...state,
                 infoList: action.payload
+            }
+        case type.USER_INFO_GET: 
+            return {
+                ...state,
+                info: action.payload
             }
         default:
             return state

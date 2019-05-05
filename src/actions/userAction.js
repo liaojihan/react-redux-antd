@@ -34,5 +34,9 @@ import { usetInfoList, InfoDelete, initUserList, infoAdd, infoGet } from "../uti
 
 
  export const getUser = (index, list) => (dispatch) => {
-     const info = infoGet(index, list);
+     const info = infoGet(index, list)
+     dispatch({
+         type: type.USER_INFO_GET,
+         payload: info
+     })
  }
